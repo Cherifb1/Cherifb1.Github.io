@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zzp Werkbank – uurtarief, btw en loonstrook berekenen</title>
+<meta name="description" content="Gratis hulpmiddelen voor zzp'ers en kleine werkgevers: bereken je uurtarief, rekenen met btw en maak een loonstrook.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+<div class="wrap">
+<div class="brand">Zzp Werkbank</div>
+<nav class="tools" aria-label="Hulpmiddelen">
+<button type="button" data-tool="uurtarief">Uurtarief</button>
+<button type="button" data-tool="btw">Btw</button>
+<button type="button" data-tool="loonstrook">Loonstrook</button>
+<button type="button" data-tool="premium">Bedrijven en Premium</button>
+</nav>
+</div>
+</header>
+
+<main class="wrap">
+
+<!-- 1. UURTARIEF -->
+<section class="tool" id="uurtarief">
+<h1>Wat moet jouw uurtarief zijn als zzp'er?</h1>
+<p class="lead">Vul in wat je wilt overhouden en wat je kwijt bent. Je ziet meteen welk tarief je nodig hebt om dat te halen.</p>
+<div class="layout">
+<form class="panel" id="f-tarief" onsubmit="return false">
+<div class="field">
+<label for="t-netto">Netto per maand dat je wilt overhouden (€)</label>
+<input id="t-netto" type="number" inputmode="decimal" min="0" step="50" value="2500">
+</div>
+<div class="row2">
+<div class="field">
+<label for="t-lasten">Zakelijke kosten per maand (€)</label>
+<input id="t-lasten" type="number" inputmode="decimal" min="0" step="10" value="300">
+</div>
+<div class="field">
+<label for="t-aov">Arbeidsongeschiktheids&shy;verzekering per maand (€)</label>
+<input id="t-aov" type="number" inputmode="decimal" min="0" step="10" value="150">
+</div>
+</div>
+<div class="row2">
+<div class="field">
+<label for="t-pensioen">Pensioen sparen per maand (€)</label>
+<input id="t-pensioen" type="number" inputmode="decimal" min="0" step="10" value="200">
+</div>
+<div class="field">
+<label for="t-belasting">Reserve voor belasting (%)</label>
+<span class="hint">Je eigen inschatting van je winst</span>
+<input id="t-belasting" type="number" inputmode="decimal" min="0" max="80" step="1" value="30">
+</div>
+</div>
+<div class="row2">
+<div class="field">
+<label for="t-uren">Factureerbare uren per week</label>
+<input id="t-uren" type="number" inputmode="decimal" min="1" max="60" step="1" value="25">
+</div>
+<div class="field">
+<label for="t-vrij">Weken vrij per jaar</label>
+<span class="hint">Vakantie, ziekte, feestdagen</span>
+<input id="t-vrij" type="number" inputmode="decimal" min="0" max="51" step="1" value="8">
+</div>
+</div>
+</form>
+
+<div>
+<div class="tape" id="tape-tarief" aria-live="polite"></div>
+</div>
+</div>
+</section>
+
+<!-- 2. BTW -->
+<section class="tool" id="btw">
+<h1>Btw uitrekenen, met of zonder btw</h1>
+<p class="lead">Reken een bedrag om van exclusief naar inclusief btw of andersom.</p>
+<div class="layout">
+<form class="panel" onsubmit="return false">
+<fieldset>
+<legend>Wat wil je uitrekenen?</legend>
+<div class="check"><input type="radio" name="b-richting" id="b-excl" value="excl" checked><label for="b-excl">Ik heb een bedrag exclusief btw</label></div>
+<div class="check"><input type="radio" name="b-richting" id="b-incl" value="incl"><label for="b-incl">Ik heb een bedrag inclusief btw</label></div>
+</fieldset>
+<div class="field">
+<label for="b-bedrag">Bedrag (€)</label>
+<input id="b-bedrag" type="number" inputmode="decimal" min="0" step="0.01" value="1000">
+</div>
+<div class="field">
+<label for="b-tarief">Btw-tarief</label>
+<select id="b-tarief">
+<option value="21">21 % (algemeen tarief)</option>
+<option value="9">9 % (verlaagd tarief)</option>
+<option value="0">0 %</option>
+</select>
+</div>
+</form>
+<div>
+<div class="tape" id="tape-btw" aria-live="polite"></div>
+<p class="note" style="margin-top:34px">Blijft je omzet onder € 20.000 per jaar? Dan kun je de kleineondernemersregeling (KOR) aanvragen en hoef je geen btw af te dragen.</p>
+</div>
+</div>
+</section>
+
+<div id="more"></div>
+
+</main>
+
+<footer class="site">
+<div class="wrap">
+Alle berekeningen zijn indicatief en geen fiscaal of juridisch advies. Controleer bedragen altijd bij de Belastingdienst of je boekhouder.
+</div>
+</footer>
+
+<script src="sections.js"></script>
+<script src="app.js"></script>
+<script src="app2.js"></script>
+</body>
+</html>

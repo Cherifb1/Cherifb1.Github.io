@@ -3,34 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zzp Werkbank – uurtarief, btw en loonstrook berekenen</title>
-<meta name="description" content="Gratis hulpmiddelen voor zzp'ers en kleine werkgevers: bereken je uurtarief, rekenen met btw en maak een loonstrook.">
+<title>Uurtarief berekenen voor zzp'ers – Zzp Werkbank</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="Style.css">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="Styles.css">
 </head>
 <body>
-
 <header class="site">
 <div class="wrap">
 <div class="brand">Zzp Werkbank</div>
 <nav class="tools" aria-label="Hulpmiddelen">
-<button type="button" data-tool="uurtarief">Uurtarief</button>
-<button type="button" data-tool="btw">Btw</button>
-<button type="button" data-tool="loonstrook">Loonstrook</button>
-<button type="button" data-tool="premium">Bedrijven en Premium</button>
+<button type="button" aria-current="true" onclick="location.href='index.html'">Uurtarief</button>
+<button type="button" onclick="location.href='btw.html'">Btw</button>
+<button type="button" onclick="location.href='loonstrook.html'">Loonstrook</button>
+<button type="button" onclick="location.href='premium.html'">Bedrijven en Premium</button>
 </nav>
 </div>
 </header>
-
 <main class="wrap">
-
-<!-- 1. UURTARIEF -->
-<section class="tool" id="uurtarief">
+<section class="tool active" id="uurtarief">
 <h1>Wat moet jouw uurtarief zijn als zzp'er?</h1>
 <p class="lead">Vul in wat je wilt overhouden en wat je kwijt bent. Je ziet meteen welk tarief je nodig hebt om dat te halen.</p>
 <div class="layout">
@@ -79,52 +71,51 @@
 </div>
 </section>
 
-<!-- 2. BTW -->
-<section class="tool" id="btw">
-<h1>Btw uitrekenen, met of zonder btw</h1>
-<p class="lead">Reken een bedrag om van exclusief naar inclusief btw of andersom.</p>
-<div class="layout">
-<form class="panel" onsubmit="return false">
-<fieldset>
-<legend>Wat wil je uitrekenen?</legend>
-<div class="check"><input type="radio" name="b-richting" id="b-excl" value="excl" checked><label for="b-excl">Ik heb een bedrag exclusief btw</label></div>
-<div class="check"><input type="radio" name="b-richting" id="b-incl" value="incl"><label for="b-incl">Ik heb een bedrag inclusief btw</label></div>
-</fieldset>
-<div class="field">
-<label for="b-bedrag">Bedrag (€)</label>
-<input id="b-bedrag" type="number" inputmode="decimal" min="0" step="0.01" value="1000">
-</div>
-<div class="field">
-<label for="b-tarief">Btw-tarief</label>
-<select id="b-tarief">
-<option value="21">21 % (algemeen tarief)</option>
-<option value="9">9 % (verlaagd tarief)</option>
-<option value="0">0 %</option>
-</select>
-</div>
-</form>
-<div>
-<div class="tape" id="tape-btw" aria-live="polite"></div>
-<p class="note" style="margin-top:34px">Blijft je omzet onder € 20.000 per jaar? Dan kun je de kleineondernemersregeling (KOR) aanvragen en hoef je geen btw af te dragen.</p>
-</div>
-</div>
-</section>
-
-<div id="more"></div>
-
 </main>
-
 <footer class="site">
 <div class="wrap">
 Alle berekeningen zijn indicatief en geen fiscaal of juridisch advies. Controleer bedragen altijd bij de Belastingdienst of je boekhouder.
 </div>
 </footer>
+<script>
+const $ = (s) => document.querySelector(s);
+const eur = (n) => new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(n);
+const num = (id) => { const v = parseFloat(String($(id).value).replace(",", ".")); return Number.isFinite(v) ? v : 0; };
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const CONFIG = { btwStandaard: 21 };
 
-<script src="sections.js"></script>
-<script src="Sections.js"></script>
-<script src="app.js"></script>
-<script src="App.js"></script>
-<script src="app2.js"></script>
-<script src="App2.js"></script>
+function renderTarief() {
+const netto = num("#t-netto") * 12;
+const pensAov = (num("#t-pensioen") + num("#t-aov")) * 12;
+const lasten = num("#t-lasten") * 12;
+const bel = Math.min(Math.max(num("#t-belasting"), 0), 80) / 100;
+const uren = Math.max(num("#t-uren"), 0) * Math.max(52 - num("#t-vrij"), 0);
+const tape = $("#tape-tarief");
+
+if (uren <= 0) {
+tape.innerHTML = '<h2>Jouw tarief</h2><p class="warn">Vul minstens 1 factureerbaar uur per week in en houd minder dan 52 vrije weken over.</p>';
+return;
+}
+const winstNodig = (netto + pensAov) / (1 - bel);
+const reserve = winstNodig - (netto + pensAov);
+const omzet = winstNodig + lasten;
+const tarief = omzet / uren;
+tape.innerHTML =
+'<h2>Jouw tarief</h2>' +
+'<div class="line"><span>Netto voor jezelf (jaar)</span><span>' + eur(netto) + '</span></div>' +
+'<div class="line"><span>Pensioen en AOV (jaar)</span><span>' + eur(pensAov) + '</span></div>' +
+'<div class="line"><span>Reserve voor belasting</span><span>' + eur(reserve) + '</span></div>' +
+'<div class="line"><span>Zakelijke kosten (jaar)</span><span>' + eur(lasten) + '</span></div>' +
+'<div class="line sum"><span>Omzet nodig, exclusief btw</span><span>' + eur(omzet) + '</span></div>' +
+'<div class="line"><span>Factureerbare uren per jaar</span><span>' + Math.round(uren) + '</span></div>' +
+'<div class="big"><span class="amount">' + eur(tarief) + '</span><span class="label">per uur, exclusief btw</span></div>' +
+'<div class="line"><span>Inclusief ' + CONFIG.btwStandaard + ' % btw</span><span>' + eur(tarief * (1 + CONFIG.btwStandaard / 100)) + '</span></div>' +
+'<div class="line"><span>Dagtarief (8 uur), exclusief btw</span><span>' + eur(tarief * 8) + '</span></div>' +
+'<p class="note">Een schatting. Je werkelijke belasting hangt af van je winst en aftrekposten.</p>';
+}
+
+$("#f-tarief").addEventListener("input", renderTarief);
+renderTarief();
+</script>
 </body>
 </html>

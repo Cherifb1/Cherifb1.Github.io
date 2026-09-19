@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loonstrook maken – Zzp Werkbank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site">
+<div class="wrap">
+<div class="brand">Zzp Werkbank</div>
+<nav class="tools" aria-label="Hulpmiddelen">
+<button type="button" onclick="location.href='index.html'">Uurtarief</button>
+<button type="button" onclick="location.href='btw.html'">Btw</button>
+<button type="button" aria-current="true" onclick="location.href='loonstrook.html'">Loonstrook</button>
+<button type="button" onclick="location.href='premium.html'">Bedrijven en Premium</button>
+</nav>
+</div>
+</header>
+<main class="wrap">
+<section class="tool active" id="loonstrook">
+<h1>Loonstrook maken voor je medewerker</h1>
+<p class="lead">Vul de gegevens in en bewaar de loonstrook als pdf. Deze tool maakt de loonstrook. Ze betaalt geen salaris uit en doet geen loonaangifte bij de Belastingdienst.</p>
+<div class="layout">
+<form class="panel" id="f-slip" onsubmit="return false">
+<h2>Werkgever</h2>
+<div class="field"><label for="s-werkgever">Bedrijfsnaam</label><input id="s-werkgever" type="text" autocomplete="organization"></div>
+<div class="row2">
+<div class="field"><label for="s-adres">Adres</label><input id="s-adres" type="text"></div>
+<div class="field"><label for="s-lhnr">Loonheffingennummer</label><input id="s-lhnr" type="text" placeholder="123456789L01"></div>
+</div>
+<h2>Werknemer</h2>
+<div class="row2">
+<div class="field"><label for="s-naam">Naam</label><input id="s-naam" type="text"></div>
+<div class="field"><label for="s-functie">Functie</label><input id="s-functie" type="text"></div>
+</div>
+<div class="row2">
+<div class="field"><label for="s-periode">Periode</label><input id="s-periode" type="month"></div>
+<div class="field"><label for="s-iban">IBAN werknemer</label><input id="s-iban" type="text" placeholder="NL00 BANK 0123 4567 89"></div>
+</div>
+<h2>Loon en inhoudingen</h2>
+<div class="row2">
+<div class="field"><label for="s-bruto">Brutoloon per maand (€)</label><input id="s-bruto" type="number" inputmode="decimal" min="0" step="0.01" value="3000"></div>
+<div class="field"><label for="s-toeslag">Toeslagen en overuren (€)</label><input id="s-toeslag" type="number" inputmode="decimal" min="0" step="0.01" value="0"></div>
+</div>
+<div class="check"><input type="checkbox" id="s-vakuit"><label for="s-vakuit">Vakantiegeld in deze periode uitbetalen (8 %)</label></div>
+<div class="field">
+<label for="s-lh">Loonheffing (€)</label>
+<span class="hint">Neem het bedrag uit de loonheffingentabel van de Belastingdienst of uit je salarissoftware.</span>
+<input id="s-lh" type="number" inputmode="decimal" min="0" step="0.01" value="0">
+</div>
+<div class="row2">
+<div class="field"><label for="s-pensioen">Pensioenpremie werknemer (€)</label>

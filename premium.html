@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bedrijven en Premium – Zzp Werkbank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site">
+<div class="wrap">
+<div class="brand">Zzp Werkbank</div>
+<nav class="tools" aria-label="Hulpmiddelen">
+<button type="button" onclick="location.href='index.html'">Uurtarief</button>
+<button type="button" onclick="location.href='btw.html'">Btw</button>
+<button type="button" onclick="location.href='loonstrook.html'">Loonstrook</button>
+<button type="button" aria-current="true" onclick="location.href='premium.html'">Bedrijven en Premium</button>
+</nav>
+</div>
+</header>
+<main class="wrap">
+<section class="tool active" id="premium">
+<h1>Betaal je medewerkers via Zzp Werkbank? Dan krijg je 5 % korting op Premium.</h1>
+<p class="lead">Premium is voor zzp'ers en bedrijven die vaker loonstroken maken of meerdere medewerkers hebben.</p>
+<div class="layout">
+<div class="panel">
+<h2>Wat zit er in Premium</h2>
+<ul class="benefits">
+<li>Onbeperkt loonstroken maken</li>
+<li>Meerdere medewerkers in één overzicht</li>
+<li>Eigen logo op de loonstrook</li>
+<li>Jaartotalen op de loonstrook</li>
+<li>Loonstroken zonder vermelding van Zzp Werkbank</li>
+</ul>
+<div class="check">
+<input type="checkbox" id="p-bedrijf">
+<label for="p-bedrijf">Ik gebruik Zzp Werkbank om medewerkers uit te betalen</label>
+</div>
+<div class="field" id="p-kvk-wrap" hidden>
+<label for="p-kvk">KvK-nummer</label>
+<span class="hint">8 cijfers</span>
+<input id="p-kvk" type="text" inputmode="numeric" maxlength="8" autocomplete="off">
+<div id="p-fout" class="warn" role="alert"></div>
+</div>
+</div>
+
+<div>
+<div class="tape" id="tape-premium" aria-live="polite"></div>
+</div>
+</div>
+</section>
+
+</main>
+<footer class="site">
+<div class="wrap">
+Alle berekeningen zijn indicatief en geen fiscaal of juridisch advies. Controleer bedragen altijd bij de Belastingdienst of je boekhouder.
+</div>
+</footer>
+<script>
+const $ = (s) => document.querySelector(s);
+const eur = (n) => new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(n);
+const num = (id) => { const v = parseFloat(String($(id).value).replace(",", ".")); return Number.isFinite(v) ? v : 0; };
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
